@@ -1,0 +1,27 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.nav{
+    background-color: cadetblue;
+    padding: 20px 0;
+}
+.nav-items{
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    padding: 0 10px;
+}
+.nav-list1{
+    float: right;
+}
+.nav-items ul li {
+    display: inline;
+    list-style: none;
+    padding: 0 10px;
+   
+}
+.btn{
+  
+    cursor: pointer;
+}

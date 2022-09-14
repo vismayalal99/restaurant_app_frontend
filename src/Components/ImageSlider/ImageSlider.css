@@ -1,0 +1,9 @@
+.image-slider{
+    position: relative; 
+   
+}
+.img-slid{
+    text-align: center;
+   width: 80%;
+   margin: 0 auto;
+}
