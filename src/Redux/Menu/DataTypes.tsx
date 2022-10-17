@@ -2,15 +2,17 @@
 export type starters={
     id:number,
     image:string,
-    details:string,
-    price:string    
+    name:string,
+    price:string,
+    availability:any
 }
 
 export type mainDish={
     id:number,
     image:string,
-    details:string,
-    price:string
+    name:string,
+    price:string,
+    availability:any
 }
 
  export interface StartersAction {

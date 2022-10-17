@@ -1,11 +1,13 @@
 import React, { useEffect } from "react";
-import { connect,useSelector } from "react-redux";
+import { connect,useDispatch,useSelector } from "react-redux";
 import { signoutButton } from "../../Redux/Authentication/AuthActions";
 import './Header.css';
 import { Link, useHistory } from "react-router-dom";
 import { fetchHeaderData } from "../../Redux/Header/HeaderActions";
 import { header } from "../../Redux/Header/DataTypes";
-
+import { Restaurant, ShoppingCart } from "@material-ui/icons";
+import Badge from '@material-ui/core/Badge';
+import { fetchCartData } from "../Action/api";
 
 type headerProps={
   datas:header[],
@@ -14,26 +16,37 @@ type headerProps={
 }
 
 function Header(props:headerProps) {
+  const dispatch=useDispatch()
   const auth=useSelector((state:any)=>state.authData.auth);
+  const cartData=useSelector((state:any)=>state.cartData);
+ 
+  
   useEffect(()=>{
     props.fetchHeaderDatas()
-   
+    dispatch<any>(fetchCartData())
+     
   },[])
  
   console.log(auth);
   const history=useHistory()
   
   const logOut = () => {
-   
-    
+            dispatch(signoutButton())
+            localStorage.setItem("authState",auth)
+            localStorage.removeItem('acesstoken')
+           
+           history.push("/login")
+ 
    };
+   console.log(cartData.data.length);
+   
 
     return ( 
         <div>
             <div>
       <div className="nav">
         <nav className="nav-items">
-          <h3 >Rahmath</h3>
+          <h3 >Rahmath <Restaurant /> </h3>
           <div className="nav-list1">
             <ul className="nav-list">
                 {
@@ -45,9 +58,16 @@ function Header(props:headerProps) {
                     )  
                   })
                 }
-               
+                
               <li className="btn" onClick={()=>logOut()}  >
                 LOGOUT 
+              </li>
+              <li className="btn"   >
+               <Link style={{ textDecoration: "none", color: "white" }} to="/cart"> 
+               <Badge badgeContent={cartData.data.length } showZero color="secondary">
+               <ShoppingCart /> 
+               </Badge>
+               </Link>
               </li>
             </ul>
           </div>

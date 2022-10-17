@@ -57,8 +57,9 @@ class ImageSlider extends React.Component<ImageSliderProps,ImageSliderState> {
    
       
       const constUrl="http://localhost:7000/images/";
-      const imageData=this.props.images.map((img:any)=> constUrl + img.imageName);
+      const imageData=this.props.images.map((img:any)=>  constUrl +img.imageName );
      
+     console.log(imageData);
      
         return ( 
             <div className="image-slider">

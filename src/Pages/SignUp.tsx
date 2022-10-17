@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-
+import {toast,ToastContainer} from "react-toastify"
 
 
 function SignUp() {
@@ -13,13 +13,19 @@ function SignUp() {
 const history=useHistory()
   function handleSubmit() {
     axios.post('http://localhost:7000/userdata/signup',{username:userName,email:email,password:password}
-    ).then((response)=>{
-     if(response.data.status == 200){
+    ).then((res)=>{
+     if(res.data.success == true){
       history.push("/login")
      }
-     console.log(response.data)
+     toast.success(res.data.message, {
+      position: toast.POSITION.TOP_CENTER
+      })
+     console.log(res.data)
+    //  history.push("/login")
     }).catch((err)=>{
-  
+      toast.error(err.response.data.message, {
+        position: toast.POSITION.TOP_CENTER
+    })
       console.log(err)
     })
  
@@ -30,6 +36,7 @@ const history=useHistory()
         <div
         style={{ width: "40%",margin: "10% auto",padding: "10%",backgroundColor:"lightgray",textAlign: "center", borderRadius: "8px",}}
       >
+        <ToastContainer />
         <form>
           <label>UserName</label>
           <br></br>
@@ -61,6 +68,7 @@ const history=useHistory()
         </form>
       </div>
      );
+     
 }
 
 export default SignUp;

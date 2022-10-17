@@ -49,10 +49,10 @@ export const fetchStartersData = () => {
   return function (dispatch:any) {
     dispatch(fetchStartersRequest);
     axios
-      .get("http://localhost:3001/starters")
+      .get("http://localhost:7000/userdata/startersmenu")
       .then((res) => {
        
-        dispatch(fetchStartersSuccess(res.data));
+        dispatch(fetchStartersSuccess(res.data.data));
       })
       .catch((error) => {
         dispatch(fetchStartersFailure(error.message));
@@ -65,9 +65,11 @@ export const fetchMainDishData = () => {
   return function (dispatch:any){
     dispatch(fetchMainDishRequest)
   axios
-    .get(" http://localhost:3001/mainDish")
+    .get("http://localhost:7000/userdata/mainmenu")
     .then((res) => {
-      dispatch(fetchMainDishSuccess(res.data))
+      console.log(res.data.data);
+      
+      dispatch(fetchMainDishSuccess(res.data.data))
     })
     .catch((error) => {
       dispatch(fetchMainDishFailure(error.message))

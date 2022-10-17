@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import axios from "axios";
 import { signinButton } from "../Redux/Authentication/AuthActions";
+import { toast, ToastContainer } from "react-toastify";
 
 
 function Login() {
@@ -47,22 +48,23 @@ function Login() {
     localStorage.setItem("acesstoken",Token);
     console.log(res)
     const datas=res.data.data;
+    const id=datas.map((item:any)=>item.id)
     const resEmail=datas.map((item:any)=>item.email);
     console.log(auth);
     dispatch(signinButton())
     console.log(auth);
-    
+    localStorage.setItem("user_id",id)
     localStorage.setItem("authState",auth)
      if(resEmail == email){
       dispatch(signinButton())
       localStorage.setItem("authState",auth)
       history.push("/")
-    
      } 
-    
-   
     }).catch((err)=>{
       console.log(err)
+      toast.error(err.response.data.message,{
+        position:toast.POSITION.TOP_CENTER
+      })
     })
     
     console.log(auth)
@@ -71,27 +73,33 @@ function Login() {
   console.log(auth)
     return ( 
         <div
-        style={{ width: "40%",margin: "10% auto",padding: "10%",backgroundColor: "lightslategray",textAlign: "center", borderRadius: "8px",}}
+        style={{ width: "20%",margin: "5% auto",padding: "8%",backgroundColor: "lightslategray", textAlign: "center",alignItems:"center", borderRadius: "8px",}}
       >
+        <ToastContainer />
         <form>
          <label>Email</label>
           <br></br>
-          <input  style={{lineHeight:'30px',margin:'20px'}}
-            size={50}
+          <br></br>
+          <input  style={{lineHeight:'30px',marginBottom:'20px'}}
+            size={40}
             type="text"
             value={email} onChange={(e) => setEmail(e.target.value)}
           />
          <br></br>
           <label>Password</label>
          <br></br>
-          <input style={{lineHeight:'30px',margin:'20px'}}
-            size={50}
+         <br></br>
+          <input style={{lineHeight:'30px',marginBottom:'20px'}}
+            size={40}
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <br></br>
           <button style={{padding:'8px 10px'}} onClick={()=>{handleSubmit()}} type="button" > Login </button>
+          <br></br>
+          <br></br>
+          <Link style={{textDecoration:"none"}} to="/signup">If not registered pls register now</Link>
         </form>
       </div>
      );
