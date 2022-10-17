@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { mainDish, starters } from "../../Redux/Menu/DataTypes";
-import { fetchMainDishData, fetchStartersData } from "../../Redux/Menu/MenuActions";
+import { fetchMainDishData,fetchStartersData } from "../../Redux/Menu/MenuActions";
 import Card from "../Card/Card";
 import './Menu.css'
 
 function Menu() {
-  const datas=useSelector((state:any)=>state)
-
+  const maindish=useSelector((state:any)=>state.mainDishData)
+  const starterss=useSelector((state:any)=>state.startersData)
+ 
   const dispatch=useDispatch()
 
   useEffect(()=>{
@@ -15,7 +16,7 @@ function Menu() {
     dispatch<any>(fetchMainDishData())
   },[dispatch]);
 
- console.log("parent")
+ 
     return ( 
       
     <div>
@@ -23,36 +24,36 @@ function Menu() {
        <div className="menu-sec">
         <h2 className="menu-head">Menu Section</h2>
         <br></br>
-        <h3>Starters</h3>
+        <h3>Disserts</h3>
         <br></br>
         <div className="menu-container">
-          { datas.startersData.startersErr ? (
-            <div className="error">{datas.startersData.startersErr}</div>
-          ) : (
-            datas.startersData.starters.map((data:starters, index:number) => {
+          { 
+            starterss.starters.map((data:mainDish, index:number) => {
               return (
                 <>
-                  <Card image={data.image} key={index} details={data.details} price={data.price} />
+                  <Card datas={data}
+                  />
                 </>
               );
-            })
+            }
           )}
         </div>
-
+       <br></br>
         <h3>Main Dish</h3>
         <br></br>
         <div className="menu-container">
-          {datas.mainDishData.mainDishErr ? <div className="error" >{datas.mainDishData.mainDishErr}</div>
-          :
-          datas.mainDishData.mainDish.map((data:mainDish, index:number) => {
+        {
+        maindish.mainDish.map((data:mainDish, index:number) => {
             return (
-              <Card image={data.image} key={index} details={data.details} price={data.price} />
+              <Card datas={data} />
             );
           })}
         </div>
       </div>
     </div>
+    <br></br>
         </div>
+        
      );
 }
 

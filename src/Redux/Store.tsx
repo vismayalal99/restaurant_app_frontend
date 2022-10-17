@@ -7,6 +7,9 @@ import { homeContentReducer } from "./HomeContent/HomeContentReducer";
 import { imageSliderReducer } from "./ImageSlider/ImageSliderReducer";
 import { mainDishReducer, startersReducer } from "./Menu/MenuReducer";
 import { composeWithDevTools } from "@redux-devtools/extension";
+import { cartDataReducer } from "./Cart/CartReducer";
+import { cartDataQuantityReducer } from "./CartQuantity/CartQuantityReducer";
+import { addCartDataReducer } from "./AddToCart/AddToCartReducer";
 
 
 
@@ -17,7 +20,10 @@ const rootReducer=combineReducers({
     startersData:startersReducer,
     mainDishData:mainDishReducer,
     commendData:commentReducer,
-    homeContentData:homeContentReducer
+    homeContentData:homeContentReducer,
+    cartData:cartDataReducer,
+    quantity:cartDataQuantityReducer,
+    addCartData:addCartDataReducer
     
 })
 

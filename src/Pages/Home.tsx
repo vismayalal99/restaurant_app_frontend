@@ -30,12 +30,13 @@ function Home(props:dataProps) {
   },[])
  
     return ( 
-        <div>
-            <div style={{width:'80%',margin:'20px auto', textAlign:'center'}}>
-              <ImageSlider />
+        <div style={{backgroundColor:'lightgrey'}}>
+            <div >
+            
+              <HomeSection />
       
       </div>
-            <div style={{width: "85%", height: "400px", textAlign: "center", padding: "20px", lineHeight: "30px", margin: "0 auto", backgroundColor: "lightgray",}}>
+            <div style={{ height: "400px", textAlign: "center", padding: "20px", lineHeight: "30px", margin: "0 auto", backgroundColor: "lightgray",}}>
         {
           content?.map((items:any,index:number)=>{
             return(
@@ -51,7 +52,7 @@ function Home(props:dataProps) {
        
       </div>
      <br></br>
-      <HomeSection />
+     <ImageSlider />
         </div>
      );
 }

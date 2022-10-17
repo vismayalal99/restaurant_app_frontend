@@ -9,11 +9,15 @@
 .card:hover{
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
+.card-cont1{
+ padding: 5px 5px;
+    background-color: white;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
 
 .card-cont{
     display: flex;
+    position: relative;
     justify-content: space-between;
-    padding: 5px 5px;
-    background-color: white;
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+   
 }
