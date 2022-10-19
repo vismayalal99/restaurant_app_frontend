@@ -9,12 +9,15 @@ import TextField from "@material-ui/core/TextField"
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import { ToastContainer } from 'react-toastify';
-import { buyNow } from '../Action/api';
-import { useDispatch } from 'react-redux';
+import { buyNow, fetchUserData } from '../Action/api';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 
 interface prop{
-    data:any
+    data:any,
+    username:any,
+    useremail:any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -30,30 +33,51 @@ const useStyles = makeStyles((theme) => ({
 export default function BuyItems(props:prop) {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
-  const [firstName,setFirstName]=React.useState('');
+  const data=useSelector((state:any)=>state.userData.data);
+  console.log("data" ,data);
+ 
+ 
+  const [firstName,setFirstName]=React.useState("");
   const [lastName,setLastName]=React.useState('');
   const [email,setEmail]=React.useState('');
   const [phoneNo,setPhoneNo]=React.useState('');
- 
+  const [open, setOpen] = React.useState(false);
   const dispatch=useDispatch()
+
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  React.useEffect(()=>{
+    const name= data[0] && data[0]["username"]
+    const email=data[0] && data[0]["email"]
+    const lastname=data[0] && data[0]["last_name"]
+    const phone=data[0] && data[0]["phone_no"]
+
+    setFirstName(name)
+    setLastName(lastname)
+    setEmail(email)
+    setPhoneNo(phone)
+
+  },[data])
+  
+ 
+  React.useEffect(()=>{
+    dispatch<any>(fetchUserData())
+   
+  },[])
+
+
 const quantity=props.data.quantity;
 const menuItem=props.data.name;
 const price=props.data.price ;
 const id=props.data.id;
-
+  
   const handleSubmit = () => {
-   
-   dispatch<any>(buyNow(firstName,lastName,email,phoneNo,menuItem,price,quantity,id))
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setPhoneNo('');
+    const section="buyNowItems"
+    dispatch<any>(buyNow(firstName,lastName,email,phoneNo,menuItem,price,quantity,id,section))
+  
     setOpen(false);
   };
 
@@ -62,7 +86,7 @@ const id=props.data.id;
       <Button variant="contained" disabled={props.data.availability == 0} color="secondary" onClick={handleClickOpen}>
         BuyNow
       </Button>
-      <ToastContainer />
+    
       <Dialog open={open} onClose={()=>{setOpen(false)}} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description" >
 
         <DialogTitle id="alert-dialog-title">{"Place order"}</DialogTitle>

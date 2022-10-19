@@ -10,6 +10,7 @@ import { composeWithDevTools } from "@redux-devtools/extension";
 import { cartDataReducer } from "./Cart/CartReducer";
 import { cartDataQuantityReducer } from "./CartQuantity/CartQuantityReducer";
 import { addCartDataReducer } from "./AddToCart/AddToCartReducer";
+import { userDataReducer } from "./UserData/userDataReducer";
 
 
 
@@ -23,7 +24,8 @@ const rootReducer=combineReducers({
     homeContentData:homeContentReducer,
     cartData:cartDataReducer,
     quantity:cartDataQuantityReducer,
-    addCartData:addCartDataReducer
+    addCartData:addCartDataReducer,
+    userData:userDataReducer
     
 })
 

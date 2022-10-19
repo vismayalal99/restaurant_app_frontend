@@ -48,12 +48,14 @@ function Login() {
     localStorage.setItem("acesstoken",Token);
     console.log(res)
     const datas=res.data.data;
+    const user=datas.map((item:any)=>item)
     const id=datas.map((item:any)=>item.id)
     const resEmail=datas.map((item:any)=>item.email);
     console.log(auth);
     dispatch(signinButton())
     console.log(auth);
     localStorage.setItem("user_id",id)
+    
     localStorage.setItem("authState",auth)
      if(resEmail == email){
       dispatch(signinButton())
