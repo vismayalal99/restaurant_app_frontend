@@ -26,6 +26,9 @@ function Cart() {
    const dispatch=useDispatch();
 
 
+   const datas=useSelector((state:any)=>state.userData.data);
+   const userName=datas.map((item:any)=>item.username);
+   const userEmail=datas.map((item:any)=>item.email)
 
     React.useEffect(()=>{
       dispatch<any>(fetchCartData());
@@ -33,7 +36,7 @@ function Cart() {
     
     },[])
 
-
+let deleteData="delete"
   
       const total = cartData.data.reduce((prev:any, current:any) => {
         if (current.availability) prev += current.price * current.quantity;
@@ -86,9 +89,9 @@ function Cart() {
             </div>
             <div className="cart-items-price">{item.quantity * item.price} </div> 
 
-            <BuyItems data= {item}   />
+            <BuyItems data= {item} username={userName} useremail={userEmail}  />
             <div>   
-              <IconButton aria-label="delete" onClick={()=>{dispatch<any>(deletecart(item.id))}} style={{marginLeft:"20px"}} >
+              <IconButton aria-label="delete" onClick={()=>{dispatch<any>(deletecart(item.id,deleteData))}} style={{marginLeft:"20px"}} >
                 <DeleteIcon color="error" fontSize="large" />
               </IconButton> 
             </div>

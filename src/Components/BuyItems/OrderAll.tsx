@@ -8,14 +8,11 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import { toast, ToastContainer } from 'react-toastify';
-import { placeOrder } from '../Action/api';
+import { ToastContainer } from 'react-toastify';
+import { fetchUserData, placeOrder } from '../Action/api';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
-interface prop{
-    data:any
-}
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,27 +22,48 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+
 export default function OrderAll() {
   const classes = useStyles();
- const history=useHistory()
-  // var todayDate = new Date();
-  // var currentDate=todayDate.getFullYear()+"-"+(todayDate.getMonth()+1)+"-"+ todayDate.getDate();
-
+ 
   const [open, setOpen] = React.useState(false);
   const [firstName,setFirstName]=React.useState('');
   const [lastName,setLastName]=React.useState('');
   const [email,setEmail]=React.useState('');
   const [phoneNo,setPhoneNo]=React.useState('');
-  const [date,setDate]=React.useState('')
+
   const dispatch=useDispatch();
 
   const cartData=useSelector((state:any)=>state.cartData);
+  const userData=useSelector((state:any)=>state.userData.data);
+  console.log(userData);
+  
 
   const total = cartData.data.reduce((prev:any, current:any) => {
     if (current.availability) prev += current.price * current.quantity;
     return prev;
   }, 0);
 
+
+  React.useEffect(()=>{
+
+    dispatch<any>(fetchUserData())
+
+  },[])
+
+  React.useEffect(()=>{
+    const name= userData[0] && userData[0]["username"]
+    const email= userData[0] && userData[0]["email"]
+    const lastname=userData[0] && userData[0]["last_name"]
+    const phone= userData[0] && userData[0]["phone_no"]
+
+    setFirstName(name)
+    setLastName(lastname)
+    setEmail(email)
+    setPhoneNo(phone)
+
+  },[userData])
   
  const cartDatas=cartData.data;
 
@@ -53,24 +71,17 @@ export default function OrderAll() {
     setOpen(true);
   };
 
-const id=cartDatas.map((item:any)=>item.id)
 
   const handleSubmit = () => {
-  
-    dispatch<any>(placeOrder(firstName,lastName,email,phoneNo,date,cartDatas,total))
+    dispatch<any>(placeOrder(firstName,lastName,email,phoneNo,cartDatas,total))
 
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setPhoneNo('');
-    setDate('');
     setOpen(false);
   };
 
   return (
     <div>
         <Button variant="contained" style={{backgroundColor:"lightyellow"}} onClick={handleClickOpen} >place order</Button> 
-      <ToastContainer />
+   
       <Dialog open={open} onClose={()=>{setOpen(false)}} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description" >
 
         <DialogTitle id="alert-dialog-title">{"Place order"}</DialogTitle>
@@ -87,7 +98,6 @@ const id=cartDatas.map((item:any)=>item.id)
                <TextField id="standard-basic" label="Phone Number" value={phoneNo} onChange={(e)=>{setPhoneNo(e.target.value)}} />
                <br></br>
                
-              
                <Typography style={{display:"flex"}}>
                 <h4>Total Price</h4> <h4 style={{marginLeft:"310px"}}> {total}</h4>
                </Typography>

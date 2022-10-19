@@ -48,9 +48,7 @@ const useStyles = makeStyles({
 
 interface cardProps {
   datas: any;
-  // image:string,
-  // details:string,
-  // price:string
+
 }
 
 function Cards(props: cardProps) {
@@ -58,7 +56,7 @@ function Cards(props: cardProps) {
   const classes = useStyles();
   const { datas } = props;
   const dispatch = useDispatch();
-  const history=useHistory()
+
   const [quantity, setQuentity] = React.useState<any>(1);
 
   const cartData = useSelector((state: any) => state.cartData);
@@ -82,7 +80,7 @@ function Cards(props: cardProps) {
   return (
     <>
       <div style={{ justifyContent: "space-between", padding: "0 15px",marginBottom:'25px' }}>
-        <ToastContainer />
+       
         <Card className={classes.root}>
           <CardActionArea>
             <CardMedia

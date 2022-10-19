@@ -2,12 +2,15 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { mainDish, starters } from "../../Redux/Menu/DataTypes";
 import { fetchMainDishData,fetchStartersData } from "../../Redux/Menu/MenuActions";
+import { ToastContainer } from "react-toastify";
 import Card from "../Card/Card";
 import './Menu.css'
 
+
 function Menu() {
-  const maindish=useSelector((state:any)=>state.mainDishData)
-  const starterss=useSelector((state:any)=>state.startersData)
+ 
+  const maindish=useSelector((state:any)=>state.mainDishData.mainDish)
+  const starterss=useSelector((state:any)=>state.startersData.starters)
  
   const dispatch=useDispatch()
 
@@ -20,6 +23,8 @@ function Menu() {
     return ( 
       
     <div>
+      <br></br>
+      <ToastContainer />
       <div className="menu">
        <div className="menu-sec">
         <h2 className="menu-head">Menu Section</h2>
@@ -28,7 +33,7 @@ function Menu() {
         <br></br>
         <div className="menu-container">
           { 
-            starterss.starters.map((data:mainDish, index:number) => {
+            starterss.map((data:mainDish, index:number) => {
               return (
                 <>
                   <Card datas={data}
@@ -43,7 +48,7 @@ function Menu() {
         <br></br>
         <div className="menu-container">
         {
-        maindish.mainDish.map((data:mainDish, index:number) => {
+        maindish.map((data:mainDish, index:number) => {
             return (
               <Card datas={data} />
             );

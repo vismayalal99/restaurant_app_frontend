@@ -10,7 +10,7 @@ function Footer() {
         <nav className="footer">
            
             <div className="footer-list">
-                <ul  >
+                <ul>
                     <li><a href="#"> <FaInstagram size={25} /> </a></li>
                     <li><a href="#"><FaWhatsapp size={25} /> </a></li>
                     <li><a href="#"> <FaMapMarkerAlt size={25} /> </a></li>

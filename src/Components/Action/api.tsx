@@ -7,6 +7,7 @@ import { fetchCartDishDeleteFailure, fetchCartDishDeleteRequest, fetchCartDishDe
 import { fetchCartDishQuantityDecrementFailure, fetchCartDishQuantityDecrementRequest, fetchCartDishQuantityDecrementSuccess, fetchCartDishQuantityIncrementFailure, fetchCartDishQuantityIncrementRequest, fetchCartDishQuantityIncrementSuccess } from "../../Redux/CartQuantity/CartQuantityAction";
 import { fetchAddCartDishFailure, fetchAddCartDishRequest, fetchAddCartDishSuccess } from "../../Redux/AddToCart/AddToCartActions";
 import { fetchPlaceOrderAllFailure, fetchPlaceOrderAllRequest, fetchPlaceOrderAllSuccess, fetchPlaceOrderFailure, fetchPlaceOrderRequest, fetchPlaceOrderSuccess } from "../../Redux/PlaceOrder/PlaceOrderActions";
+import { fetchUserDataFailure, fetchUserDataRequest, fetchUserDataSuccess } from "../../Redux/UserData/useradataAction";
 
 
 
@@ -33,7 +34,6 @@ export  function fetchHomeContentData(auth:any,history:any){
             dispatch(fetchHomeContentSucess(res.data));
         })
         .catch((err)=>{
-          console.log(err);
           
           if(err.response.data.success == false){
             dispatch(signoutButton())
@@ -90,7 +90,7 @@ export const fetchCartData = () => {
 
 
 
-export function deletecart(id:any){
+export function deletecart(id:any,deleteData:any){
   return function(dispatch:any){
     dispatch(fetchCartDishDeleteRequest())
     axios.delete("http://localhost:7000/userdata/deletecart",{params:{id:id}})
@@ -99,11 +99,11 @@ export function deletecart(id:any){
        dispatch(fetchCartDishDeleteSuccess(res.data.message))
        dispatch(fetchCartData())
       
-      
+      if(deleteData == "delete"){
        toast.success(res.data.message,{
          position:toast.POSITION.TOP_CENTER
        })
-      
+      }
   })
     .catch((err)=>{
        console.log(err);
@@ -123,9 +123,6 @@ export function deletecartAll(id:any){
       console.log(res.data);
       dispatch(fetchCartDishDeleteSuccess(res.data.message))
       dispatch(fetchCartData())
-      toast.success(res.data.message,{
-       position:toast.POSITION.TOP_CENTER
-      })
       
   })
     .catch((err)=>{
@@ -137,15 +134,16 @@ export function deletecartAll(id:any){
 }
 
 
-export function buyNow(firstName:any,lastName:any,email:any,phoneNo:any,menuItem:any,price:any,quantity:any,id:any){
-
+export function buyNow(firstName:any,lastName:any,email:any,phoneNo:any,menuItem:any,price:any,quantity:any,id:any,section:any){
+let deleteData:any
   return function(dispatch:any){
     dispatch(fetchPlaceOrderRequest())
-    axios.post("http://localhost:7000/userdata/placeorder",{firstName,lastName,email,phoneNo,menuItem,price,quantity})
+    axios.post("http://localhost:7000/userdata/placeorder",{firstName,lastName,email,phoneNo,menuItem,price,quantity,section
+  })
     .then((res)=>{
        dispatch(fetchPlaceOrderSuccess(res.data.message))
        if(res.data.success==true){
-       dispatch(deletecart(id))
+       dispatch(deletecart(id,deleteData))
        }
        toast.success(res.data.message, {
         position: toast.POSITION.TOP_CENTER
@@ -163,11 +161,11 @@ export function buyNow(firstName:any,lastName:any,email:any,phoneNo:any,menuItem
 
 
 
-export function placeOrder(firstName:any,lastName:any,email:any,phoneNo:any,date:any,cartDatas:any,total:any){
+export function placeOrder(firstName:any,lastName:any,email:any,phoneNo:any,cartDatas:any,total:any){
   return function(dispatch:any){
     dispatch(fetchPlaceOrderAllRequest())
     const user_id=localStorage.getItem('user_id')
-    axios.post("http://localhost:7000/userdata/orderall",{firstName:firstName,lastName:lastName,email:email,phoneNo:phoneNo,date:date,cartDatas:cartDatas,user_id:user_id,total:total})
+    axios.post("http://localhost:7000/userdata/orderall",{firstName:firstName,lastName:lastName,email:email,phoneNo:phoneNo,cartDatas:cartDatas,user_id:user_id,total:total})
     .then((res)=>{
      
      dispatch(fetchPlaceOrderAllSuccess(res.data.message))
@@ -209,6 +207,7 @@ export const cartQuantityIncrement=(id:any)=>{
 
 
 export const cartQuantityDecrement=(id:any,quantity:any)=>{
+  let deleteData:any=true
   return function(dispatch:any){
     console.log("qun"+id,quantity);
     
@@ -218,7 +217,7 @@ export const cartQuantityDecrement=(id:any,quantity:any)=>{
     dispatch(fetchCartDishQuantityDecrementSuccess(res.data.message))
     dispatch(fetchCartData())
     if(quantity == 1){
-      dispatch(deletecart(id))
+      dispatch(deletecart(id,deleteData))
     }
 
   })
@@ -230,4 +229,23 @@ export const cartQuantityDecrement=(id:any,quantity:any)=>{
 }
 }
 
+
+export const fetchUserData = () => {
+  return function (dispatch:any) {
+    dispatch(fetchUserDataRequest());
+    const id=localStorage.getItem('user_id')
+    console.log(id);
+    
+    axios.get("http://localhost:7000/userdata/getuserdata", {params: {id:id}})
+      .then((res) => {
+       console.log(res.data.data);
+        dispatch(fetchUserDataSuccess(res.data.data));
+      
+      })
+      .catch((error) => {
+          console.log(error);
+          dispatch(fetchUserDataFailure(error));
+      });
+  };
+};
 
