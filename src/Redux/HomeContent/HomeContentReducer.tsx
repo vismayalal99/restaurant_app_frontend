@@ -17,7 +17,7 @@ const initialState:contentType={
 
 
 export const homeContentReducer=(state=initialState,action:any)=>{
-    console.log("test1")
+    
        switch(action.type){
         case FETCH_HOMECONTENTDATA_REQUEST:
             return{

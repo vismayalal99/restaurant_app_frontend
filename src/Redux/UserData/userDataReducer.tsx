@@ -17,7 +17,7 @@ const initialState:commentType={
 
 
 export const userDataReducer=(state=initialState,action:any)=>{
-    console.log(action.payload);
+ 
     
     switch (action.type) {
       case FETCH_USERDATA_REQUEST:

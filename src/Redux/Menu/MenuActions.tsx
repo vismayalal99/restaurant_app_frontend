@@ -1,25 +1,25 @@
 import axios from "axios";
 import { mainDish, starters } from "./DataTypes";
-import { FETCH_MAINDISH_FAILURE,FETCH_MAINDISH_REQUEST,FETCH_MAINDISH_SUCESS, FETCH_STARTERS_FAILURE, 
-         FETCH_STARTERS_REQUEST, FETCH_STARTERS_SUCESS,} from "./MenuTypes";
+import { FETCH_MAINDISH_FAILURE,FETCH_MAINDISH_REQUEST,FETCH_MAINDISH_SUCESS, FETCH_MENUCATEGORY_FAILURE, FETCH_MENUCATEGORY_REQUEST, FETCH_MENUCATEGORY_SUCESS,
+         } from "./MenuTypes";
 
-const fetchStartersRequest = () => {
+const fetchMenuCategoryRequest = () => {
   return {
-    type: FETCH_STARTERS_REQUEST,
+    type: FETCH_MENUCATEGORY_REQUEST,
   };
 };
 
-const fetchStartersSuccess = (starters:starters[]) => {
+const fetchMenuCategorySuccess = (starters:starters[]) => {
     console.log("start",starters); 
   return {
-    type: FETCH_STARTERS_SUCESS,
+    type: FETCH_MENUCATEGORY_SUCESS,
     payload: starters,
   };
 };
 
-const fetchStartersFailure = (error:string) => {
+const fetchMenuCategoryFailure = (error:string) => {
   return {
-    type: FETCH_STARTERS_FAILURE,
+    type: FETCH_MENUCATEGORY_FAILURE,
     payload: error,
   };
 };
@@ -45,17 +45,17 @@ const fetchMainDishFailure = (error:string) => {
   };
 };
 
-export const fetchStartersData = () => {
+export const fetchMenuCategoryData = () => {
   return function (dispatch:any) {
-    dispatch(fetchStartersRequest);
+    dispatch(fetchMenuCategoryRequest());
     axios
-      .get("http://localhost:7000/userdata/startersmenu")
+      .get("http://localhost:7000/userdata/getcategory")
       .then((res) => {
        
-        dispatch(fetchStartersSuccess(res.data.data));
+        dispatch(fetchMenuCategorySuccess(res.data.data));
       })
       .catch((error) => {
-        dispatch(fetchStartersFailure(error.message));
+        dispatch(fetchMenuCategoryFailure(error.message));
       });
   };
 };

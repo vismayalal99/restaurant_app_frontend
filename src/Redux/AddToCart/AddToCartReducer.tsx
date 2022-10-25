@@ -17,7 +17,7 @@ const initialState:commentType={
 
 
 export const addCartDataReducer=(state=initialState,action:any)=>{
-    console.log(action.payload);
+
     
     switch (action.type) {
       case FETCH_ADDCARTDATA_REQUEST:
