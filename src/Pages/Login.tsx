@@ -39,6 +39,7 @@ function Login() {
   }
   },[])
 
+console.log("user",auth);
 
   function handleSubmit() {
     
@@ -52,14 +53,14 @@ function Login() {
     const id=datas.map((item:any)=>item.id)
     const resEmail=datas.map((item:any)=>item.email);
     console.log(auth);
-    dispatch(signinButton())
+    // dispatch(signinButton())
     console.log(auth);
     localStorage.setItem("user_id",id)
     
-    localStorage.setItem("authState",auth)
+   // localStorage.setItem("authState",auth)
      if(resEmail == email){
-      dispatch(signinButton())
-      localStorage.setItem("authState",auth)
+     dispatch(signinButton())
+     // localStorage.setItem("authState",auth)
       history.push("/")
      } 
     }).catch((err)=>{

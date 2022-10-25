@@ -1,4 +1,4 @@
-import { FETCH_PLACEORDERALL_FAILURE, FETCH_PLACEORDERALL_REQUEST, FETCH_PLACEORDERALL_SUCESS, FETCH_PLACEORDER_FAILURE, FETCH_PLACEORDER_REQUEST, FETCH_PLACEORDER_SUCESS } from "./PlaceOrderType"
+import { FETCH_PAYMENTMETHOD_FAILURE, FETCH_PAYMENTMETHOD_REQUEST, FETCH_PAYMENTMETHOD_SUCESS, FETCH_PLACEORDERALL_FAILURE, FETCH_PLACEORDERALL_REQUEST, FETCH_PLACEORDERALL_SUCESS, FETCH_PLACEORDER_FAILURE, FETCH_PLACEORDER_REQUEST, FETCH_PLACEORDER_SUCESS } from "./PlaceOrderType"
 
 
 
@@ -50,6 +50,32 @@ export const fetchPlaceOrderAllSuccess=(message:string)=>{
 export const fetchPlaceOrderAllFailure=(error:string)=>{
     return{
         type:FETCH_PLACEORDERALL_FAILURE,
+        payload:error
+    };
+};
+
+
+
+export const fetchPaymentMethodRequest=()=>{  
+    return{
+        type:FETCH_PAYMENTMETHOD_REQUEST
+    };
+};
+
+
+
+export const fetchPaymentMethodSuccess=(data:any)=>{
+    return{
+        type:FETCH_PAYMENTMETHOD_SUCESS,
+        payload:data
+    };
+};
+
+
+
+export const fetchPaymentMethodFailure=(error:string)=>{
+    return{
+        type:FETCH_PAYMENTMETHOD_FAILURE,
         payload:error
     };
 };

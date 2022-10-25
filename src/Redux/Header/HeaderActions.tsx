@@ -29,7 +29,7 @@ import {FETCH_HEADERDATA_FAILURE,FETCH_HEADERDATA_REQUEST,FETCH_HEADERDATA_SUCES
       axios
         .get("http://localhost:3001/header")
         .then((res) => {
-          console.log(res.data)
+       //   console.log(res.data)
           dispatch(fetchHeaderDataSuccess(res.data));
         })
         .catch((err) => {

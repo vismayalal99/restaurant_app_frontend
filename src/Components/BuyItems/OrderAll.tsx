@@ -8,9 +8,14 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
-import { ToastContainer } from 'react-toastify';
-import { fetchUserData, placeOrder } from '../Action/api';
+import { fetchUserData, paymentMethodData, placeOrder } from '../Action/api';
 import { useDispatch, useSelector } from 'react-redux';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import CardPay from './PaymentMethods/CardPay';
 
 
 
@@ -49,8 +54,23 @@ export default function OrderAll() {
   React.useEffect(()=>{
 
     dispatch<any>(fetchUserData())
+    dispatch<any>(paymentMethodData())
 
   },[])
+
+
+  const paymentMethod=useSelector((state:any)=>state.paymentData.data);
+  console.log(paymentMethod);
+
+
+  const [value, setValue] = React.useState('1');
+  console.log(typeof value);
+  
+
+  const handleChange = (event:any) => {
+    setValue(event.target.value);
+  };
+  
 
   React.useEffect(()=>{
     const name= userData[0] && userData[0]["username"]
@@ -73,7 +93,7 @@ export default function OrderAll() {
 
 
   const handleSubmit = () => {
-    dispatch<any>(placeOrder(firstName,lastName,email,phoneNo,cartDatas,total))
+    dispatch<any>(placeOrder(firstName,lastName,email,phoneNo,cartDatas,total,value))
 
     setOpen(false);
   };
@@ -97,6 +117,17 @@ export default function OrderAll() {
                <br></br>
                <TextField id="standard-basic" label="Phone Number" value={phoneNo} onChange={(e)=>{setPhoneNo(e.target.value)}} />
                <br></br>
+               <FormControl component="fieldset">
+               <FormLabel component="legend">Payment</FormLabel>
+               <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+                 {
+                    paymentMethod.map((item:any)=>(
+                  <FormControlLabel value={String(item.id)} control={<Radio color="primary" />} label={item.method} />
+                 ))
+                 }
+               </RadioGroup>
+               </FormControl>
+    <br></br>
                
                <Typography style={{display:"flex"}}>
                 <h4>Total Price</h4> <h4 style={{marginLeft:"310px"}}> {total}</h4>
@@ -106,9 +137,21 @@ export default function OrderAll() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
+          {
+            value == '2' ?
+            
+        
+          <CardPay firstname={firstName} lastname={lastName} email={email} phone={phoneNo} 
+          cartData={cartDatas} total={total} value={value} />
+          :
+          
           <Button onClick={handleSubmit} variant="contained" style={{backgroundColor:"yellow",color:"black"}}>
             place order
           </Button>
+          
+          
+          }
+        
           
         </DialogActions>
       </Dialog>

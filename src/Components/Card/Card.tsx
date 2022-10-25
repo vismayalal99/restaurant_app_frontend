@@ -105,7 +105,7 @@ function Cards(props: cardProps) {
               var match = false;
               const item = cartData.data.map((i: any) => i.name);
               for (let i = 0; i <= item.length - 1; i++) {
-                console.log(item[i]);
+             
                 var x = item[i];
                 if (x == datas.name) {
                   match = true;
@@ -114,7 +114,7 @@ function Cards(props: cardProps) {
               }
               if (match) {
                 const qn= cartData.data.find((obj:any) => obj.menu_id == datas.id )
-                console.log(qn.id);
+             
                 return (
                   <>
                    <>

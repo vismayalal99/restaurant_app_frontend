@@ -21,24 +21,24 @@ function Header(props:headerProps) {
   const cartData=useSelector((state:any)=>state.cartData);
  
   
+  
   useEffect(()=>{
     props.fetchHeaderDatas()
     dispatch<any>(fetchCartData())
      
   },[])
  
-  console.log(auth);
+ // console.log(auth);
   const history=useHistory()
   
   const logOut = () => {
             dispatch(signoutButton())
-            localStorage.setItem("authState",auth)
+          //  localStorage.setItem("authState",auth)
             localStorage.removeItem('acesstoken')
-           
-           history.push("/login")
+             history.push("/login")
  
    };
-   console.log(cartData.data.length);
+  // console.log(cartData.data.length);
    
 
     return ( 
