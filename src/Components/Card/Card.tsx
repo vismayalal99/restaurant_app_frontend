@@ -8,12 +8,12 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Link, useHistory } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { cartQuantityDecrement, cartQuantityIncrement, fetchCartData } from "../../Components/Action/api";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addToCart } from "../Action/api";
+
 
 
 
@@ -156,10 +156,13 @@ function Cards(props: cardProps) {
                               onClick={() => {dispatch<any>(addToCart(datas,quantity))}}>
                       Add to Cart
                     </Button>
+                  
                   </>
+                 
                 );
               }
             })()}
+            
           </CardActions>
         </Card>
       </div>

@@ -21,7 +21,7 @@ function Cart() {
    
    const cartData=useSelector((state:any)=>state.cartData)
    const quan=cartData.data.map((item:any)=>item.quantity)
-   console.log(quan);
+
    const history=useHistory();
    const dispatch=useDispatch();
 
@@ -36,7 +36,7 @@ function Cart() {
     
     },[])
 
-let deleteData="delete"
+    let deleteData="delete"
   
       const total = cartData.data.reduce((prev:any, current:any) => {
         if (current.availability) prev += current.price * current.quantity;

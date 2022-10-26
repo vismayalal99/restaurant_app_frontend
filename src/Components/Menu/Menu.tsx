@@ -24,6 +24,7 @@ import Select from '@material-ui/core/Select';
 
 
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: '2px 4px',
@@ -68,17 +69,23 @@ function Menu() {
  
 
   let search = menuItems && menuItems.filter(function (e:any) {
-    return(
+      if(filters =="1"){
+      return  (e.category_id == filters && e.name.toString().toLowerCase().includes(value.toString().toLowerCase()))
+       }
+      if(filters =="2"){
+      return (e.category_id == filters && e.name.toString().toLowerCase().includes(value.toString().toLowerCase()))
+      }
+      return(
       e.name.toString().toLowerCase().includes(value.toString().toLowerCase())
-    )
+      )
+  
   });
 
-console.log(search);
 
-const sort=search&& search
-.sort((a:any,b:any)=>{
-    console.log(filters,"out");
-   
+
+
+const sort=search&& search.sort((a:any,b:any)=>{
+  
     if(filters === "low"){
      console.log("inside low");
      return a.price > b.price ? 1:-1
@@ -88,11 +95,8 @@ const sort=search&& search
      return a.price < b.price ? 1:-1
     }   
 });
-console.log("sort main",sort);
 
-console.log(typeof filters,filters);
 
- 
 
   const handleFilterChange=(e:any)=>{
     setFilters(e.target.value);
@@ -119,7 +123,7 @@ console.log(typeof filters,filters);
       <ToastContainer />
      
       <div className="menu">
-     
+     {console.log("inside rturn")}
        <div className="menu-sec">
        <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel htmlFor="grouped-select">Filter</InputLabel>
@@ -163,7 +167,7 @@ console.log(typeof filters,filters);
       <br></br>
       <br></br>
 
-        <h2 className="menu-head">Menu Section</h2>
+        <h2 className="menu-head"><i>Menu Section</i></h2>
         <br></br>
        
         <div className="menu-container">
@@ -188,16 +192,12 @@ console.log(typeof filters,filters);
     </Card>
             </div>
               :
-           sort && 
-           
-           sort
-            .map((data:any)=>{
+           sort && sort.map((data:any)=>{
              return(
                       <>
-                 <Cards datas={data} />
-                 </>
-
-             )})
+                     <Cards datas={data} />
+                     </>
+                )})
 
 }
         </div>

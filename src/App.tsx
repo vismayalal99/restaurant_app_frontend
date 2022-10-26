@@ -10,6 +10,7 @@ import { Store } from './Redux/Store';
 import ProtectedRoutes from './Routes/ProtectedRoute';
 import SignUp from './Pages/SignUp';
 import Cart from './Components/Cart/Cart';
+import Orders from './Components/OrderCancel/Orders';
 
 
 
@@ -27,6 +28,7 @@ function App() {
       <ProtectedRoutes path="/menu" exact component={Menu} />
       <ProtectedRoutes path="/comment" exact component={CommentSection} /> 
       <ProtectedRoutes path="/cart" exact component={Cart}  />
+      <ProtectedRoutes path="/orders" exact component={Orders}  />
      
     
     </Switch>

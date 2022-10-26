@@ -88,15 +88,18 @@ export default function BuyItems(props:prop) {
    
   },[])
 
+const menuId=props.data.menu_id;
+console.log("menuid",menuId);
 
 const quantity=props.data.quantity;
 const menuItem=props.data.name;
+const image=props.data.image;
 const price=props.data.price ;
 const id=props.data.id;
 const section="buyNowItems"
   const handleSubmit = () => {
-  
-    dispatch<any>(buyNow(firstName,lastName,email,phoneNo,menuItem,price,quantity,id,section,value))
+    const user_id=localStorage.getItem('user_id')
+    dispatch<any>(buyNow(firstName,lastName,email,phoneNo,menuItem,price,quantity,id,section,value,user_id,image,menuId))
   
     setOpen(false);
   };
@@ -154,18 +157,16 @@ const section="buyNowItems"
           {
             value == "2" ?
 
+       <CardPay firstname={firstName} lastname={lastName} email={email} phone={phoneNo} 
+        menuitem={menuItem} price={price} quantity={quantity} id={id} section={section} value={value} image={image} setOpens={setOpen}
+        menuId={menuId}
+        />
+         :
+        <Button onClick={handleSubmit}  variant="contained" style={{backgroundColor:"yellow",color:"black"}}>
+        place order
+        </Button>
 
-
-<CardPay firstname={firstName} lastname={lastName} email={email} phone={phoneNo} 
-menuitem={menuItem} price={price} quantity={quantity} id={id} section={section} value={value} />
-:
-<Button onClick={handleSubmit}  variant="contained" style={{backgroundColor:"yellow",color:"black"}}>
-place order
-</Button>
-
-
-
-}
+        }
 
 
         </DialogActions>

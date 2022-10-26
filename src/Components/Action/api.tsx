@@ -8,6 +8,8 @@ import { fetchCartDishQuantityDecrementFailure, fetchCartDishQuantityDecrementRe
 import { fetchAddCartDishFailure, fetchAddCartDishRequest, fetchAddCartDishSuccess } from "../../Redux/AddToCart/AddToCartActions";
 import { fetchPaymentMethodFailure, fetchPaymentMethodRequest, fetchPaymentMethodSuccess, fetchPlaceOrderAllFailure, fetchPlaceOrderAllRequest, fetchPlaceOrderAllSuccess, fetchPlaceOrderFailure, fetchPlaceOrderRequest, fetchPlaceOrderSuccess } from "../../Redux/PlaceOrder/PlaceOrderActions";
 import { fetchUserDataFailure, fetchUserDataRequest, fetchUserDataSuccess } from "../../Redux/UserData/useradataAction";
+import { fetchOrdersDataFailure, fetchOrdersDataRequest, fetchOrdersDataSuccess } from "../../Redux/Orders/OrdersAction";
+import { fetchCancelOrdersDataFailure, fetchCancelOrdersDataRequest, fetchCancelOrdersDataSuccess } from "../../Redux/DeleteOrders/DeleteOrderActions";
 
 
 
@@ -77,7 +79,6 @@ export const fetchCartData = () => {
     const id=localStorage.getItem('user_id')
     axios.get("http://localhost:7000/userdata/getcart", {params: {id:id}})
       .then((res) => {
-     //  console.log(res.data.data);
         dispatch(fetchCartDishSuccess(res.data.data));
       
       })
@@ -95,7 +96,6 @@ export function deletecart(id:any,deleteData:any){
     dispatch(fetchCartDishDeleteRequest())
     axios.delete("http://localhost:7000/userdata/deletecart",{params:{id:id}})
     .then((res)=>{
-    //   console.log(res.data);
        dispatch(fetchCartDishDeleteSuccess(res.data.message))
        dispatch(fetchCartData())
       
@@ -120,7 +120,6 @@ export function deletecartAll(id:any){
     dispatch(fetchCartDishDeleteRequest())
     axios.delete("http://localhost:7000/userdata/deletecartall",{params:{id:id}})
     .then((res)=>{
-     // console.log(res.data);
       dispatch(fetchCartDishDeleteSuccess(res.data.message))
       dispatch(fetchCartData())
       
@@ -134,17 +133,15 @@ export function deletecartAll(id:any){
 }
 
 
-export function buyNow(firstName:any,lastName:any,email:any,phoneNo:any,menuItem:any,price:any,quantity:any,id:any,section:any,value:any){
+export function buyNow(firstName:any,lastName:any,email:any,phoneNo:any,menuItem:any,price:any,quantity:any,id:any,section:any,value:any,user_id:any,image:any,menuId:any){
 let deleteData:any
   return function(dispatch:any){
     dispatch(fetchPlaceOrderRequest())
-    axios.post("http://localhost:7000/userdata/placeorder",{firstName,lastName,email,phoneNo,menuItem,price,quantity,section,value
+    axios.post("http://localhost:7000/userdata/placeorder",{firstName,lastName,email,phoneNo,menuItem,price,quantity,section,value,user_id,image,menuId
   })
     .then((res)=>{
        dispatch(fetchPlaceOrderSuccess(res.data.message))
        if(res.data.success==true){
-        console.log("deleted cart");
-        
        dispatch(deletecart(id,deleteData))
        }
        toast.success(res.data.message, {
@@ -177,7 +174,7 @@ export function placeOrder(firstName:any,lastName:any,email:any,phoneNo:any,cart
       })
   })
  .catch((err)=>{
- // console.log(err);
+
   dispatch(fetchPlaceOrderAllFailure(err.message))
   toast.error(err.response.data.message, {
     position: toast.POSITION.TOP_CENTER
@@ -254,8 +251,7 @@ export const fetchUserData = () => {
   return function (dispatch:any) {
     dispatch(fetchUserDataRequest());
     const id=localStorage.getItem('user_id')
-   // console.log(id);
-    
+   
     axios.get("http://localhost:7000/userdata/getuserdata", {params: {id:id}})
       .then((res) => {
        console.log(res.data.data);
@@ -265,6 +261,46 @@ export const fetchUserData = () => {
       .catch((error) => {
           console.log(error);
           dispatch(fetchUserDataFailure(error));
+      });
+  };
+};
+
+
+export const fetchOrdersData = () => {
+  return function (dispatch:any) {
+    dispatch(fetchOrdersDataRequest());
+    const id=localStorage.getItem('user_id');
+    axios.get("http://localhost:7000/userdata/orders", {params: {id:id}})
+      .then((res) => {
+       console.log(res.data.data);
+        dispatch(fetchOrdersDataSuccess(res.data.data));
+      
+      })
+      .catch((error) => {
+          console.log(error);
+          dispatch(fetchOrdersDataFailure(error));
+      });
+  };
+};
+
+
+
+export const fetchCancelOrdersData = (id:any,orderId:any,amount:any) => {
+  return function (dispatch:any) {
+   
+    dispatch(fetchCancelOrdersDataRequest());
+    axios.delete("http://localhost:7000/userdata/orders", {data:{id,orderId,amount}})
+      .then((res) => {
+       console.log(res.data.data);
+        dispatch(fetchCancelOrdersDataSuccess(res.data.message));
+       dispatch(fetchOrdersData())
+        toast.success(res.data.message, {
+          position: toast.POSITION.TOP_CENTER
+      })
+      })
+      .catch((error) => {
+          console.log(error);
+          dispatch(fetchCancelOrdersDataFailure(error));
       });
   };
 };

@@ -28,17 +28,16 @@ function Header(props:headerProps) {
      
   },[])
  
- // console.log(auth);
   const history=useHistory()
   
   const logOut = () => {
             dispatch(signoutButton())
-          //  localStorage.setItem("authState",auth)
             localStorage.removeItem('acesstoken')
-             history.push("/login")
+            localStorage.removeItem('user_id')
+            history.push("/login")
  
    };
-  // console.log(cartData.data.length);
+  
    
 
     return ( 

@@ -17,9 +17,9 @@ function Login() {
   console.log(content)
 
   useEffect(()=>{
-    const data={UserName:"admin",Password:"123"}
-    localStorage.setItem("token",JSON.stringify(data));
-    console.log(data)
+    // const data={UserName:"admin",Password:"123"}
+    // localStorage.setItem("token",JSON.stringify(data));
+    // console.log(data)
     localStorage.setItem("authState",auth)
   },[auth])
 
@@ -47,20 +47,13 @@ console.log("user",auth);
     .then((res)=>{
     const Token=res.data.token;
     localStorage.setItem("acesstoken",Token);
-    console.log(res)
     const datas=res.data.data;
-    const user=datas.map((item:any)=>item)
     const id=datas.map((item:any)=>item.id)
     const resEmail=datas.map((item:any)=>item.email);
-    console.log(auth);
-    // dispatch(signinButton())
-    console.log(auth);
     localStorage.setItem("user_id",id)
     
-   // localStorage.setItem("authState",auth)
      if(resEmail == email){
-     dispatch(signinButton())
-     // localStorage.setItem("authState",auth)
+      dispatch(signinButton())
       history.push("/")
      } 
     }).catch((err)=>{

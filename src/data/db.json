@@ -18,7 +18,8 @@
     [
      {"id":1,"name":"HOME","path":"/"},
      {"id":2,"name":"MENU","path":"/menu"},
-     {"id":3,"name":"COMMENT","path":"/comment"}
+     {"id":3,"name":"COMMENT","path":"/comment"},
+     {"id":4,"name":"ORDERS","path":"/orders"}
    
    ],
    "imageSlider":

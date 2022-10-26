@@ -1,38 +1,38 @@
-import { FETCH_USERDATA_FAILURE, FETCH_USERDATA_REQUEST, FETCH_USERDATA_SUCESS } from "./userdataType";
+import { FETCH_ORDERDATA_FAILURE, FETCH_ORDERDATA_REQUEST, FETCH_ORDERDATA_SUCESS } from "./OrdersType"
 
 
 
 
-interface userDataType{
+interface ordersType{
     loading:boolean,
     data:[],
     error:string
 }
 
-const initialState:userDataType={
+const initialState:ordersType={
     loading:false,
     data:[],
     error:''
 }
 
 
-export const userDataReducer=(state=initialState,action:any)=>{
+export const ordersDataReducer=(state=initialState,action:any)=>{
  
     
     switch (action.type) {
-      case FETCH_USERDATA_REQUEST:
+      case FETCH_ORDERDATA_REQUEST:
           return{
               ...state,
               loading:true
           }
           
-      case FETCH_USERDATA_SUCESS:
+      case FETCH_ORDERDATA_SUCESS:
           return{
               ...state,
               data:action.payload
           }
       
-      case FETCH_USERDATA_FAILURE:
+      case FETCH_ORDERDATA_FAILURE:
           return{
               ...state,
               error:action.payload
