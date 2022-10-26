@@ -12,6 +12,8 @@ import { cartDataQuantityReducer } from "./CartQuantity/CartQuantityReducer";
 import { addCartDataReducer } from "./AddToCart/AddToCartReducer";
 import { userDataReducer } from "./UserData/userDataReducer";
 import { paymentMethodReducer } from "./PlaceOrder/PlaceOrderReducer";
+import { ordersDataReducer } from "./Orders/OrdersReducer";
+import { cancelOrdersDataReducer } from "./DeleteOrders/DeleteOrderReducer";
 
 
 
@@ -27,7 +29,9 @@ const rootReducer=combineReducers({
     quantity:cartDataQuantityReducer,
     addCartData:addCartDataReducer,
     userData:userDataReducer,
-    paymentData:paymentMethodReducer
+    paymentData:paymentMethodReducer,
+    ordersData:ordersDataReducer,
+    deleteOrder:cancelOrdersDataReducer
     
 })
 

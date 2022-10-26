@@ -7,7 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField"
 import { makeStyles } from '@material-ui/core/styles';
-import { FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { buyNow, fetchUserData, paymentMethodData, placeOrder } from '../../Action/api';
 import { useDispatch, useSelector } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
@@ -26,7 +26,10 @@ interface prop{
    section?:any,
    value:any,
    cartData?:any,
-   total?:any
+   total?:any,
+   image?:any,
+   setOpens?:any,
+   menuId?:any
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -53,7 +56,6 @@ export default function CardPay(props:prop) {
   const classes = useStyles();
 
   const data=useSelector((state:any)=>state.userData.data);
-  console.log("data" ,data);
  
   const [open, setOpen] = React.useState(false);
 
@@ -102,14 +104,18 @@ const phoneNo=props.phone;
 const section = props.section;
 const values=props.value;
 const cartDatas=props.cartData;
-const total=props.total
+const total=props.total;
+const image=props.image;
+const menuId=props.menuId;
+console.log(menuId);
+
 
   const handleSubmit = (e:any) => {
-    
+    const user_id=localStorage.getItem('user_id')
     e.preventDefault()
     if(props.section =="buyNowItems"){
-    dispatch<any>(buyNow(firstName,lastName,email,phoneNo,menuItem,price,quantity,id,section,values))
-
+    dispatch<any>(buyNow(firstName,lastName,email,phoneNo,menuItem,price,quantity,id,section,values,user_id,image,menuId))
+     props.setOpens(false)
     }
    else
    { dispatch<any>(placeOrder(firstName,lastName,email,phoneNo,cartDatas,total,values))
@@ -138,7 +144,7 @@ const total=props.total
       <h6 style={{marginBottom:'0px'}}>Valid Thru</h6>
       <div style={{display:"flex",width:"350px"}}>
       
-<div>
+   <div>
 
       <FormControl className={classes.formControl}>
       
@@ -199,7 +205,7 @@ const total=props.total
    
      </div> 
     <br></br>
-<div style={{padding:'8px',backgroundColor:"whitesmoke"}}>
+  <div style={{padding:'8px',backgroundColor:"whitesmoke"}}>
       <Button className={classes.btn1} type='submit' onClick={handleSubmit} disabled={cardNumber === "" || month ==="" || year=== "" || cvv===""} fullWidth  variant="contained">Pay- ₹{props.section =="buyNowItems" ? props.price * props.quantity : props.total} </Button>
       </div> 
   </form>

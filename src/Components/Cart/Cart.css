@@ -60,8 +60,6 @@
    padding-top: 15px;
 }
 .cart-items-total{
-    /* display: flex; */
-    /* justify-content: space-around; */
     align-items: center;
     font-size: 20px;
     font-weight: 600;
@@ -69,7 +67,6 @@
    
 }
 .cart-items-total-buy{
-    /* justify-content: space-around; */
     align-items: center;
     font-size: 20px;
     font-weight: 600;

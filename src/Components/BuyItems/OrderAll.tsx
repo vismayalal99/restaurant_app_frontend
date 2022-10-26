@@ -93,6 +93,7 @@ export default function OrderAll() {
 
 
   const handleSubmit = () => {
+    const user_id = localStorage.getItem("user_id")
     dispatch<any>(placeOrder(firstName,lastName,email,phoneNo,cartDatas,total,value))
 
     setOpen(false);
