@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartQuantityDecrement, cartQuantityIncrement, fetchCartData } from "../../Components/Action/api";
 import "react-toastify/dist/ReactToastify.css";
 import { addToCart } from "../Action/api";
+import { toast } from "react-toastify";
 
 
 
@@ -55,6 +56,8 @@ function Cards(props: cardProps) {
   
   const classes = useStyles();
   const { datas } = props;
+  console.log("total menu",datas);
+  
   const dispatch = useDispatch();
 
   const [quantity, setQuentity] = React.useState<any>(1);
@@ -63,12 +66,20 @@ function Cards(props: cardProps) {
   
   React.useEffect(() => {
     dispatch<any>(fetchCartData());
+    console.log('hi');
+    
   }, []);
 
   const constUrl = "http://localhost:7000/images/";
+  
 
   const quantityIncrement = () => {
-    setQuentity(quantity < 10 ? quantity + 1 : quantity );
+    setQuentity(quantity < datas.quantities ? quantity + 1 : quantity );
+    if(quantity == datas.quantities ){
+    toast.error("out of stock", {
+      position: toast.POSITION.TOP_CENTER
+  })
+  }
   };
 
   const quantityDecrement = (id: any) => {
@@ -114,6 +125,7 @@ function Cards(props: cardProps) {
               }
               if (match) {
                 const qn= cartData.data.find((obj:any) => obj.menu_id == datas.id )
+             console.log(qn);
              
                 return (
                   <>
@@ -125,7 +137,7 @@ function Cards(props: cardProps) {
                       <div style={{ padding: "0px 10px", width: "10px" }}>
                       { cartData.data.find((obj:any) => obj.menu_id == datas.id ).quantity}
                       </div>
-                      <button className={classes.btnincr} onClick={()=>{dispatch<any>(cartQuantityIncrement(qn.id))}}>
+                      <button className={classes.btnincr} onClick={()=>{dispatch<any>(cartQuantityIncrement(qn.id,datas.id,datas.quantities,qn.quantity))}}>
                         +
                       </button>
                     </div>
@@ -141,18 +153,23 @@ function Cards(props: cardProps) {
               } else {
                 return (
                   <>
-                     <div className={classes.qnty} >
-                      <button className={classes.btndcr} onClick={quantityDecrement} >
-                        -
-                      </button>
-                      <div style={{ padding: "0px 10px", width: "10px" }}>
-                        {quantity}
-                      </div>
-                      <button className={classes.btnincr} onClick={quantityIncrement}>
-                        +
-                      </button>
+                  {
+                    datas.availability != 0 && datas.quantities != 0 &&
+
+                    <div className={classes.qnty} >
+                    <button className={classes.btndcr} onClick={quantityDecrement} >
+                      -
+                    </button>
+                    <div style={{ padding: "0px 10px", width: "10px" }}>
+                      {quantity}
                     </div>
-                    <Button size="small" variant="contained" disabled={datas.availability == 0} color="primary" 
+                    <button  className={classes.btnincr} onClick={quantityIncrement}>
+                      +
+                    </button>
+                  </div>
+                  }
+                    
+                    <Button size="small" variant="contained" disabled={datas.availability == 0 || datas.quantities == 0} color="primary" 
                               onClick={() => {dispatch<any>(addToCart(datas,quantity))}}>
                       Add to Cart
                     </Button>

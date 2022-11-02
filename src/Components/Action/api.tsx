@@ -14,6 +14,7 @@ import { fetchCancelOrdersDataFailure, fetchCancelOrdersDataRequest, fetchCancel
 
 
 
+
 axios.interceptors.request.use((req)=>{
   const acessToken=localStorage.getItem('acesstoken');
   console.log(acessToken)
@@ -203,14 +204,19 @@ export const paymentMethodData = () => {
 };
 
 
-export const cartQuantityIncrement=(id:any)=>{
+export const cartQuantityIncrement=(id:any,menuId:any,qty:any,qty2:any)=>{
   return function(dispatch:any){
     console.log(id);
     dispatch(fetchCartDishQuantityIncrementRequest())
-    axios.patch("http://localhost:7000/userdata/cart/quantityincrement",{id:id})
+    axios.patch("http://localhost:7000/userdata/cart/quantityincrement",{id:id,menuId:menuId})
     .then((res)=>{
      dispatch(fetchCartDishQuantityIncrementSuccess(res.data))
      dispatch(fetchCartData())
+     if(qty == qty2){
+      toast.error("out of stock", {
+        position: toast.POSITION.TOP_CENTER
+    })
+     }
   })
   .catch((err)=>{
     dispatch(fetchCartDishQuantityIncrementFailure(err.message))
@@ -304,4 +310,6 @@ export const fetchCancelOrdersData = (id:any,orderId:any,amount:any) => {
       });
   };
 };
+
+
 

@@ -2,13 +2,13 @@ import { mainDish, MainDishAction } from "../Menu/DataTypes";
 import { FETCH_CARTDATA_FAILURE, FETCH_CARTDATA_REQUEST, FETCH_CARTDATA_SUCESS } from "./CartType";
 
 
-interface commentType{
+interface cartDataType{
     loading:boolean,
     data:mainDish[],
     error:string
 }
 
-const initialState:commentType={
+const initialState:cartDataType={
     loading:false,
     data:[],
     error:''

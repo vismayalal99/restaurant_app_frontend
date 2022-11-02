@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCancelOrdersData, fetchOrdersData } from '../Action/api';
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { ToastContainer } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,8 +27,9 @@ const useStyles = makeStyles((theme) => ({
      marginLeft:'200px',
   },
  summary2:{
-    marginLeft:'400px'
- }
+    marginLeft:'300px'
+ },
+
 }));
 
 export default function Orders() {
@@ -42,11 +43,24 @@ export default function Orders() {
 
  const [expanded, setExpanded] = React.useState('');
 
+
   const handleChange = (panel:any) => (event:any, isExpanded:any) => {
     setExpanded(isExpanded ? panel : false);
   };
  
+ 
+  
+
+  // React.useEffect(()=>{
+
+  //   dispatch<any>(fetchReviewData())
+
+  // },[])
+
+
  const constUrl="http://localhost:7000/images/";
+
+ 
 
   React.useEffect(()=>{
 
@@ -54,7 +68,13 @@ export default function Orders() {
 
   },[])
 
+  const sort=orders&& orders.sort((a:any,b:any)=>{
   
+    return a.id < b.id ? 1:-1
+});
+
+
+ 
 
   return (
     <div className={classes.root}>
@@ -62,7 +82,7 @@ export default function Orders() {
           <ToastContainer />
             
         {
-            orders && orders.map((item:any)=>{
+            sort && sort.map((item:any)=>{
                 return(
                     <>
                      <Accordion expanded={expanded === item.id} onChange={handleChange(item.id) }>
@@ -83,16 +103,17 @@ export default function Orders() {
                      <Typography  >  ₹ {item.total_amount} </Typography>
                      </div>
                      <div className={classes.summary2}>
+                      
                         <Typography >{new Date(item.created_at).toDateString()}</Typography>
-                        <br></br>
+                        <br></br>  
                         <Button variant='outlined' onClick={()=>{dispatch<any>(fetchCancelOrdersData(item.id,item.order_id,item.total_amount))}} >Cancel Order</Button>
                      </div>
+                    
                      </AccordionDetails>
                     </Accordion>
                     </>
                    
-                )
-            })
+                )})
 
         }
      

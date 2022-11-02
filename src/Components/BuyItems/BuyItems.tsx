@@ -130,7 +130,7 @@ const section="buyNowItems"
 
                <FormControl component="fieldset">
                <FormLabel component="legend">Payment</FormLabel>
-               <RadioGroup aria-label="gender" name="gender1" value={value} onChange={handleChange}>
+               <RadioGroup aria-label="paymenyt"  value={value} onChange={handleChange}>
                  {
                     paymentMethod.map((item:any)=>(
                     <>
@@ -143,7 +143,7 @@ const section="buyNowItems"
     </FormControl>
 
       <br></br>
-    <Typography style={{display:"flex"}}>
+             <Typography style={{display:"flex"}}>
                 <h4>Total Price</h4> <h4 style={{marginLeft:"310px"}}> ₹{props.data.price * props.data.quantity}</h4>
                </Typography>
                <br></br>

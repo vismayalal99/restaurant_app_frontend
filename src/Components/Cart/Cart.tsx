@@ -11,6 +11,7 @@ import OrderAll from "../BuyItems/OrderAll";
 import { useHistory } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Button from "@material-ui/core/Button";
+import { fetchMainDishData } from "../../Redux/Menu/MenuActions";
 
 
 
@@ -19,7 +20,12 @@ function Cart() {
    
    const constUrl="http://localhost:7000/images/";
    
-   const cartData=useSelector((state:any)=>state.cartData)
+   const cartData=useSelector((state:any)=>state.cartData);
+   console.log("cartdata",cartData);
+   
+   const menuItems=useSelector((state:any)=>state.mainDishData.mainDish);
+   console.log(menuItems);
+   
    const quan=cartData.data.map((item:any)=>item.quantity)
 
    const history=useHistory();
@@ -32,6 +38,7 @@ function Cart() {
 
     React.useEffect(()=>{
       dispatch<any>(fetchCartData());
+      dispatch<any>(fetchMainDishData())
       console.log("leng "+cartData.data.length);
     
     },[])
@@ -81,11 +88,21 @@ function Cart() {
             
             <div className="cart-items-price">{item.price} </div>
             <div className="cart-items-quantity" >
-               <div style={{border:'1px solid gray',display:'flex',padding:'5px',borderRadius:'15px'}}>
-              <button style={{border:'none',backgroundColor:"none",padding:'5px',borderRadius:'50%'}} onClick={()=>{dispatch<any>(cartQuantityDecrement(item.id,item.quantity))}}  >  -  </button>  
-              <div style={{padding:'0px 10px'}} >{item.quantity} </div> 
-              <button style={{border:'none',backgroundColor:"none",padding:'5px',borderRadius:'50%'}} onClick={()=>{dispatch<any>(cartQuantityIncrement(item.id))}} >  +  </button>
-              </div>
+              {(function(){
+                
+                    const qn= menuItems.find((obj:any) => obj.id == item.menu_id )
+                    console.log("total",qn);
+                  return(
+                    <div style={{border:'1px solid gray',display:'flex',padding:'5px',borderRadius:'15px'}}>
+                    <button style={{border:'none',backgroundColor:"none",padding:'5px',borderRadius:'50%'}} onClick={()=>{dispatch<any>(cartQuantityDecrement(item.id,item.quantity))}}  >  -  </button>  
+                    <div style={{padding:'0px 10px'}} >{item.quantity} </div> 
+                    <button style={{border:'none',backgroundColor:"none",padding:'5px',borderRadius:'50%'}} onClick={()=>{dispatch<any>(cartQuantityIncrement(item.id,item.menu_id,qn.quantities,item.quantity))}} >  +  </button>
+                    </div>
+                  )
+           
+              })()
+              }
+              
             </div>
             <div className="cart-items-price">{item.quantity * item.price} </div> 
 
