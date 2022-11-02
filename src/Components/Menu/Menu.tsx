@@ -60,6 +60,8 @@ function Menu() {
   const classes = useStyles();
 
   const menuItems=useSelector((state:any)=>state.mainDishData.mainDish);
+  console.log("menu",menuItems);
+  
   
   const category=useSelector((state:any)=>state.categoryData.category);
   

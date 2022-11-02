@@ -17,6 +17,7 @@ import { cancelOrdersDataReducer } from "./DeleteOrders/DeleteOrderReducer";
 
 
 
+
 const rootReducer=combineReducers({
     imageData:imageSliderReducer,
     authData:authenticationReducer,
@@ -31,7 +32,8 @@ const rootReducer=combineReducers({
     userData:userDataReducer,
     paymentData:paymentMethodReducer,
     ordersData:ordersDataReducer,
-    deleteOrder:cancelOrdersDataReducer
+    deleteOrder:cancelOrdersDataReducer,
+    
     
 })
 
